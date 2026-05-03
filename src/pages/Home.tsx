@@ -436,8 +436,8 @@ export function Home() {
                 Pull the container
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
-              <a href="mailto:hello@1patch.app" className="btn btn-secondary">
-                hello@1patch.app
+              <a href="mailto:info@verto-it.com" className="btn btn-secondary">
+                info@verto-it.com
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </div>
