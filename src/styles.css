@@ -903,3 +903,44 @@ article p { font-size: 14px; color: var(--mute); line-height: 1.55; }
 }
 .wtb-result-row:last-child { border-bottom: 0; }
 .wtb-attack-name { font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+
+/* ── Why It Matters (homepage) ───────────────────────── */
+
+.why-matters-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+@media (max-width: 720px) { .why-matters-grid { grid-template-columns: 1fr; } }
+
+.why-matters-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px 24px; background: var(--paper); border: 1px solid var(--line);
+  font-size: 15px; line-height: 1.5; color: var(--ink-2);
+}
+.why-matters-item:hover { border-color: var(--line-2); }
+.why-matters-mark {
+  font-family: var(--mono); font-size: 13px; color: var(--accent-ink);
+  font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── Core Guarantee (homepage) ───────────────────────── */
+
+.core-guarantee {
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 32px 36px; margin-bottom: 40px;
+}
+.core-guarantee-intro {
+  font-family: var(--mono); font-size: 11px; color: var(--mute);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 20px;
+}
+.core-guarantee-list {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+@media (max-width: 720px) { .core-guarantee-list { grid-template-columns: 1fr; } }
+.core-guarantee-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14px; line-height: 1.55; color: var(--ink-2);
+}
+.core-guarantee-mark {
+  font-family: var(--mono); font-size: 12px; color: var(--accent-ink);
+  font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}

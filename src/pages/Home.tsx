@@ -20,7 +20,7 @@ export function Home() {
           <div className="hero-grid">
             <div>
               <div className="eyebrow">
-                <span className="pill">v0.9</span> zero-trust patch orchestration
+                <span className="pill">v0.9</span> security-first patch orchestration platform
               </div>
               <h1 className="headline">
                 Your endpoints<br />
@@ -28,18 +28,17 @@ export function Home() {
                 <em>And that's the point.</em>
               </h1>
               <p className="sub">
-                1Patch is a <b>cryptographically verified</b> execution layer for endpoint updates.
-                Every task bundle is ES256-signed. Every action has a delay window.
-                Everything streams to your <b>SIEM in real time</b> — even if the control plane is compromised.
+                1Patch is a patch management system where endpoints verify every update before execution.
+                Even if the control plane is compromised, endpoints do not blindly execute commands.
               </p>
               <div className="hero-actions">
                 <a href="mailto:security@1patch.app" className="btn btn-primary">
-                  Request a security demo
+                  Request a Security Demo
                   <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
-                <a href="/security/we-tried-to-break-it" className="btn btn-secondary">See it under attack conditions</a>
+                <a href="/#how" className="btn btn-secondary">See How It Works</a>
               </div>
               <div className="install-cmd">
                 <span className="prompt">$</span>
@@ -103,6 +102,29 @@ export function Home() {
           <span><b>SIEM</b> · sentinel + webhook + syslog</span>
         </div>
       </div>
+
+      {/* ── Why It Matters ───────────────────────────────────── */}
+      <section className="block" id="why-matters" style={{ paddingTop: 72, paddingBottom: 72 }}>
+        <div className="wrap">
+          <div className="section-head" style={{ marginBottom: 40 }}>
+            <div className="section-eyebrow">Why this matters</div>
+            <h2 className="section-title">Four risks. One platform designed around all of them.</h2>
+          </div>
+          <div className="why-matters-grid">
+            {[
+              'Prevent silent mass rollouts from compromised systems',
+              'Reduce risk from malicious or tampered updates',
+              'Gain full visibility into patch execution across all devices',
+              'Control exactly when and how updates are applied',
+            ].map(item => (
+              <div className="why-matters-item" key={item}>
+                <span className="why-matters-mark">→</span>
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── Why 1Patch is Different ───────────────────────── */}
       <section className="block" id="why-different">
@@ -229,8 +251,24 @@ export function Home() {
         <div className="wrap">
           <div className="section-head">
             <div className="section-eyebrow"><span className="num">03</span>When things go wrong</div>
-            <h2 className="section-title">Designed to fail safely. Not just to succeed normally.</h2>
-            <p className="section-lede">Most patch management tools are designed for the normal path. 1Patch is designed for the adversarial path — where an attacker may already have access to part of your infrastructure.</p>
+            <h2 className="section-title">Built for when things go wrong.</h2>
+            <p className="section-lede">Most systems assume the control plane is trusted. 1Patch is designed for when it isn't.</p>
+          </div>
+          <div className="core-guarantee">
+            <div className="core-guarantee-intro">The four guarantees that hold even under adversarial conditions:</div>
+            <div className="core-guarantee-list">
+              {[
+                'Endpoints verify every task before execution',
+                'Tasks must be signed and visible in the system',
+                'Execution is delayed to reduce blast radius',
+                'Every action is observable via SIEM',
+              ].map(item => (
+                <div className="core-guarantee-item" key={item}>
+                  <span className="core-guarantee-mark">✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="scenario-grid">
             <div className="scenario">
@@ -470,8 +508,8 @@ export function Home() {
         <div className="wrap">
           <div className="section-head">
             <div className="section-eyebrow"><span className="num">07</span>Enterprise readiness</div>
-            <h2 className="section-title">Built for environments where invisible actions are unacceptable.</h2>
-            <p className="section-lede">Every operation in 1Patch is auditable, delayable, and revocable. Designed for teams with compliance requirements and a SOC that needs complete, independent visibility into every endpoint action.</p>
+            <h2 className="section-title">Designed for high-security environments.</h2>
+            <p className="section-lede">Every operation in 1Patch is auditable, delayable, and revocable. Built for teams with compliance requirements and a SOC that needs complete, independent visibility into every endpoint action. Security by design, not by assumption.</p>
           </div>
           <div className="ent-grid">
             <div className="ent-cell">
@@ -531,10 +569,10 @@ export function Home() {
                 <span className="num" style={{ background: 'var(--danger)', color: 'var(--paper)' }}>⚑</span>
                 Red-team analysis
               </div>
-              <h2 className="wtb-promo-title">We attacked our own system.<br />Then we published the results.</h2>
-              <p className="wtb-promo-sub">We documented every attack path we could find against 1Patch — compromised credentials, forged tasks, network interception, malicious nodes, and more. The analysis covers both what we blocked and what we didn't.</p>
+              <h2 className="wtb-promo-title">We attacked our own system.</h2>
+              <p className="wtb-promo-sub">We simulated compromised servers, malicious tasks, and insider threats. Here's what happened.</p>
               <a href="/security/we-tried-to-break-it" className="btn btn-primary" style={{ marginTop: 28, display: 'inline-flex' }}>
-                Read the adversarial analysis
+                Read the full breakdown
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </div>
@@ -562,8 +600,8 @@ export function Home() {
         <div className="wrap">
           <div className="trust-signals">
             <div>
-              <h2>Designed for <span>high-security</span> environments.</h2>
-              <p>Built with zero-trust principles from the ground up. Works even when the management server is under adversarial conditions. Full auditability and traceability at every layer.</p>
+              <h2>Built for <span>paranoid</span> environments.</h2>
+              <p>Designed for hostile conditions. Works even when the management server is under adversarial conditions. Full auditability and traceability at every layer. Security by design, not by assumption.</p>
             </div>
             <div className="trust-bullets">
               {[
@@ -590,7 +628,7 @@ export function Home() {
           <div className="section-head">
             <div className="section-eyebrow"><span className="num">08</span>Pricing</div>
             <h2 className="section-title">Free forever to self-host. Pay only when you don't want to.</h2>
-            <p className="section-lede">The community edition is the same code that runs hosted — same security model, same zero-trust execution stack. Every plan includes full security features. Pick the plan that fits how much operational load you want to carry.</p>
+            <p className="section-lede">Enterprise-grade architecture. Flexible deployment options. The community edition is the same code that runs hosted — same security model, same zero-trust execution stack. Every plan includes the full cryptographically verified execution stack. Pick the plan that fits how much operational load you want to carry.</p>
           </div>
           <div className="price-grid">
             <div className="plan">
@@ -720,19 +758,19 @@ export function Home() {
           <div className="cta-block">
             <div>
               <h2>Stop chasing CVEs in spreadsheets.<br /><span>Start patching like you mean it.</span></h2>
-              <p>1Patch is built by Verto-IT in Germany, AGPLv3 forever, and run in production on fleets that cannot afford downtime or silent compromises. Self-host in fifteen minutes, or talk to us about your specific security requirements.</p>
+              <p>1Patch is built by Verto-IT in Germany, AGPLv3 forever, and run in production on fleets that cannot afford downtime or silent compromises. Enterprise-grade architecture. Self-host in fifteen minutes, or talk to us about your specific security requirements.</p>
             </div>
             <div className="cta-actions">
               <a href="mailto:security@1patch.app" className="btn btn-primary">
                 Request a security demo
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
-              <a href="#downloads" className="btn btn-secondary">
-                Self-host in fifteen minutes
+              <a href="mailto:security@1patch.app" className="btn btn-secondary">
+                Get a technical walkthrough
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
               <a href="/security/we-tried-to-break-it" className="btn btn-secondary">
-                See how it behaves under attack
+                See how 1Patch behaves under attack
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </div>
