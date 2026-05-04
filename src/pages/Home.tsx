@@ -20,26 +20,26 @@ export function Home() {
           <div className="hero-grid">
             <div>
               <div className="eyebrow">
-                <span className="pill">v0.9</span> open-source patch management
+                <span className="pill">v0.9</span> zero-trust patch orchestration
               </div>
               <h1 className="headline">
-                Keep every box up to date.<br />
-                <em>Every site. Every OS.</em><br />
-                <span className="strike">No downtime.</span>
+                Your endpoints<br />
+                don't trust us.<br />
+                <em>And that's the point.</em>
               </h1>
               <p className="sub">
-                1Patch is a self-hosted control plane and a fleet of backend nodes that pushes signed
-                updates to <b>Windows and Linux</b> devices — without exposing your network, without
-                vendor lock-in, and without the spreadsheet.
+                1Patch is a <b>cryptographically verified</b> execution layer for endpoint updates.
+                Every task bundle is ES256-signed. Every action has a delay window.
+                Everything streams to your <b>SIEM in real time</b> — even if the control plane is compromised.
               </p>
               <div className="hero-actions">
-                <a href="#downloads" className="btn btn-primary">
-                  Start self-hosting
+                <a href="mailto:security@1patch.app" className="btn btn-primary">
+                  Request a security demo
                   <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
-                <a href="#pricing" className="btn btn-secondary">See hosted pricing</a>
+                <a href="/security/we-tried-to-break-it" className="btn btn-secondary">See it under attack conditions</a>
               </div>
               <div className="install-cmd">
                 <span className="prompt">$</span>
@@ -89,28 +89,257 @@ export function Home() {
         </div>
       </section>
 
-      {/* ── Tech strip ───────────────────────────────────── */}
+      {/* ── Security signal strip ─────────────────────────── */}
       <div className="strip">
         <div className="wrap strip-inner">
-          <span><b>winget</b> · windows package manager</span>
+          <span><b>ES256</b> · signed task bundles</span>
           <span className="strip-sep">/</span>
-          <span><b>apt</b> · debian + ubuntu</span>
+          <span><b>zero-trust</b> · endpoint verification</span>
           <span className="strip-sep">/</span>
-          <span><b>msi</b> · custom installers <span style={{ color: 'var(--mute-2)' }}>(roadmap)</span></span>
+          <span><b>mTLS</b> · node authentication</span>
           <span className="strip-sep">/</span>
-          <span><b>postgres</b> · your database</span>
+          <span><b>delayed execution</b> · configurable hold window</span>
           <span className="strip-sep">/</span>
-          <span><b>kubernetes-ready</b></span>
+          <span><b>SIEM</b> · sentinel + webhook + syslog</span>
         </div>
       </div>
+
+      {/* ── Why 1Patch is Different ───────────────────────── */}
+      <section className="block" id="why-different">
+        <div className="wrap">
+          <div className="section-head">
+            <div className="section-eyebrow"><span className="num">01</span>Why 1Patch is different</div>
+            <h2 className="section-title">Other tools trust the server. We designed for when you can't.</h2>
+            <p className="section-lede">Traditional patch management assumes the control plane is safe. 1Patch assumes it might not be — and enforces trust at the endpoint regardless.</p>
+          </div>
+          <div className="diff-grid">
+            <div className="diff-col diff-col-old">
+              <div className="diff-col-head">
+                <span className="diff-label diff-label-old">Traditional tools</span>
+              </div>
+              <ul className="diff-list">
+                <li>Trust the server unconditionally</li>
+                <li>Execute whatever the control plane sends</li>
+                <li>No cryptographic proof of task origin</li>
+                <li>Execution starts immediately on receipt</li>
+                <li>Limited or no SIEM visibility</li>
+                <li>No kill switch for in-progress operations</li>
+                <li>Audit log lives in the same trust boundary</li>
+              </ul>
+            </div>
+            <div className="diff-col diff-col-new">
+              <div className="diff-col-head">
+                <span className="diff-label diff-label-new">1Patch</span>
+              </div>
+              <ul className="diff-list">
+                <li>Endpoints verify every task cryptographically</li>
+                <li>ES256-signed bundles — nodes cannot forge or modify</li>
+                <li>Pinned signing key, verified at the endpoint</li>
+                <li>Configurable delay window reduces blast radius</li>
+                <li>Real-time SIEM forwarding — Sentinel, webhook, syslog</li>
+                <li>MFA-gated kill switch halts all pending execution</li>
+                <li>Chain-signed ledger forwarded outside the control plane</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Security Architecture ─────────────────────────── */}
+      <section className="block" id="security" style={{ background: 'var(--bg-2)' }}>
+        <div className="wrap">
+          <div className="section-head">
+            <div className="section-eyebrow"><span className="num">02</span>Security architecture</div>
+            <h2 className="section-title">Cryptographically enforced trust. At the endpoint.</h2>
+            <p className="section-lede">Every task bundle is signed by the management server and verified by the agent against a pinned key — regardless of which backend node delivered it. No valid signature means no execution. Ever.</p>
+          </div>
+          <div className="sec-grid">
+            <div className="sec-cell">
+              <div className="sec-tag">S.01 · Identity</div>
+              <h3>Local-first auth. No SSO tax.</h3>
+              <p>First setup demands a local owner account. Standalone auth includes TOTP MFA, recovery codes, lockout policy, and session tracking. Fleet-wide tasks require MFA re-authorization above a device threshold. OAuth is opt-in, never required.</p>
+              <ul className="sec-list">
+                <li>TOTP MFA + recovery codes by default</li>
+                <li>RBAC with org / team / device scopes</li>
+                <li>Impossible-travel review queue</li>
+                <li>Session tracking with instant revoke</li>
+              </ul>
+            </div>
+            <div className="sec-cell">
+              <div className="sec-tag">S.02 · Transport</div>
+              <h3>Signed bundles. Outbound-only polling.</h3>
+              <p>Clients pull from backend nodes over HTTPS. Task bundles and rule manifests are ES256-signed by the management server — backend nodes cannot forge or modify them. Each device carries a unique EC P-256 identity. Failover is automatic; verification is never skipped.</p>
+              <ul className="sec-list">
+                <li>ES256 task bundle signing (Vault PKI)</li>
+                <li>Per-device EC P-256 identity</li>
+                <li>Outbound-only HTTPS polling</li>
+                <li>mTLS node ↔ management authentication</li>
+              </ul>
+            </div>
+            <div className="sec-cell">
+              <div className="sec-tag">S.03 · Execution</div>
+              <h3>Zero-trust task execution.</h3>
+              <p>The agent verifies every task bundle against the pinned management server signing key before executing — independent of the backend node that delivered it. No valid signature means no execution. No remote shell access exists at any layer.</p>
+              <ul className="sec-list">
+                <li>ES256 signature verification on every bundle</li>
+                <li>Replay protection via sequence numbers</li>
+                <li>No remote shell. No exceptions.</li>
+                <li>Argument allowlists per package manager</li>
+              </ul>
+            </div>
+            <div className="sec-cell">
+              <div className="sec-tag">S.04 · Audit</div>
+              <h3>Chain-signed ledger. No invisible actions.</h3>
+              <p>Every task creates a chain-signed ledger entry. Agents cross-report applied bundle IDs — discrepancies trigger reconciliation alerts. All events stream to Microsoft Sentinel or any SIEM via webhook or syslog in real time, outside the control plane's trust boundary.</p>
+              <ul className="sec-list">
+                <li>Append-only chain-signed task ledger</li>
+                <li>Microsoft Sentinel + webhook + syslog</li>
+                <li>Real-time security event forwarding</li>
+                <li>Alerting on signature verification failures</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="sec-highlights">
+            {[
+              ['Zero-trust execution', 'Endpoints verify every task bundle before executing, independent of the control plane.'],
+              ['Signed task ledger', 'Every action is chain-signed. No task executes without a cryptographic trail.'],
+              ['mTLS infrastructure', 'Backend nodes authenticate via short-lived Vault-issued EC P-256 certificates (24 h TTL).'],
+              ['Delayed execution', 'Configurable hold window before fleet-wide tasks execute — time to review and cancel.'],
+              ['Kill switch', 'Halt all pending fleet-wide execution in one MFA-gated action.'],
+              ['SIEM integration', 'Structured security events forwarded to Microsoft Sentinel or any SIEM in real time.'],
+            ].map(([title, desc]) => (
+              <div className="sec-highlight" key={title}>
+                <div className="sec-highlight-tag">✓</div>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 32, display: 'flex', gap: 12, flexWrap: 'wrap' as const }}>
+            <a href="/security" className="btn btn-secondary">Full security architecture →</a>
+            <a href="/security/we-tried-to-break-it" className="btn btn-secondary">We tried to break it →</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── When Things Go Wrong ─────────────────────────── */}
+      <section className="block" id="threat-model">
+        <div className="wrap">
+          <div className="section-head">
+            <div className="section-eyebrow"><span className="num">03</span>When things go wrong</div>
+            <h2 className="section-title">Designed to fail safely. Not just to succeed normally.</h2>
+            <p className="section-lede">Most patch management tools are designed for the normal path. 1Patch is designed for the adversarial path — where an attacker may already have access to part of your infrastructure.</p>
+          </div>
+          <div className="scenario-grid">
+            <div className="scenario">
+              <div className="scenario-threat">Threat: compromised admin account</div>
+              <h3>Approvals + delay limits the damage.</h3>
+              <p>Fleet-wide tasks require MFA re-authorization above a device threshold. The configurable delay window gives your SOC time to detect and cancel suspicious tasks before they reach endpoints. Large-scope actions trigger SIEM alerts immediately on creation.</p>
+              <div className="scenario-outcome">
+                <span className="outcome-badge outcome-contained">Contained</span>
+                <span className="outcome-detail">MFA gate + delay window + SIEM alert</span>
+              </div>
+            </div>
+            <div className="scenario">
+              <div className="scenario-threat">Threat: compromised backend node</div>
+              <h3>Nodes cannot forge tasks.</h3>
+              <p>Backend nodes are stateless delivery intermediaries — they hold no signing keys and cannot modify or create task bundles. A compromised node can withhold tasks or replay old ones, but cannot instruct endpoints to execute anything that wasn't signed by the management server.</p>
+              <div className="scenario-outcome">
+                <span className="outcome-badge outcome-blocked">Blocked</span>
+                <span className="outcome-detail">Signature verification prevents forged execution</span>
+              </div>
+            </div>
+            <div className="scenario">
+              <div className="scenario-threat">Threat: network interception / MITM</div>
+              <h3>Signatures fail. Execution stops.</h3>
+              <p>Task bundles are ES256-signed and verified against a pinned key at the endpoint. Any tampering — substitution, replay, or modification — produces a verification failure. The agent halts, logs the event, and reports to the SIEM. No partial execution occurs.</p>
+              <div className="scenario-outcome">
+                <span className="outcome-badge outcome-blocked">Blocked</span>
+                <span className="outcome-detail">Cryptographic verification at endpoint</span>
+              </div>
+            </div>
+            <div className="scenario">
+              <div className="scenario-threat">Threat: compromised control plane</div>
+              <h3>Endpoints still verify. Delay still applies.</h3>
+              <p>Even if an attacker gains full control of the management server, they cannot bypass endpoint verification without the signing key material. The delay window and SIEM forwarding remain active, giving your team time to detect the compromise and activate the kill switch.</p>
+              <div className="scenario-outcome">
+                <span className="outcome-badge outcome-contained">Contained</span>
+                <span className="outcome-detail">Key material + delay window + kill switch</span>
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 32 }}>
+            <a href="/security/we-tried-to-break-it" className="btn btn-secondary">
+              See the full adversarial analysis →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Security Posture + SIEM ───────────────────────── */}
+      <section className="block" id="posture" style={{ background: 'var(--bg-2)' }}>
+        <div className="wrap">
+          <div className="section-head">
+            <div className="section-eyebrow"><span className="num">04</span>Visibility and posture</div>
+            <h2 className="section-title">Know exactly where you stand. In real time.</h2>
+            <p className="section-lede">1Patch surfaces your security posture in a structured, machine-readable form — both in the dashboard and as a live event stream in your SIEM.</p>
+          </div>
+          <div className="posture-siem-grid">
+            <div className="posture-card">
+              <div className="posture-card-head">
+                <span className="posture-card-label">Security posture dashboard</span>
+                <span className="posture-mode-badge">Mode: Tinfoil</span>
+              </div>
+              <div className="posture-score-row">
+                <div className="posture-score">91<span className="posture-score-denom">/100</span></div>
+                <div className="posture-indicators">
+                  <div className="posture-indicator">
+                    <span className="pi-label">Critical issues</span>
+                    <span className="pi-value pi-ok">0</span>
+                  </div>
+                  <div className="posture-indicator">
+                    <span className="pi-label">Signing key active</span>
+                    <span className="pi-value pi-ok">✓</span>
+                  </div>
+                  <div className="posture-indicator">
+                    <span className="pi-label">Delay window</span>
+                    <span className="pi-value pi-warn">4 h</span>
+                  </div>
+                  <div className="posture-indicator">
+                    <span className="pi-label">SIEM forwarding</span>
+                    <span className="pi-value pi-ok">active</span>
+                  </div>
+                </div>
+              </div>
+              <p className="posture-desc">The security posture score reflects MFA enrollment, delay window configuration, SIEM integration status, and recent verification failures. Each point maps to a specific, actionable control — not a vanity metric.</p>
+            </div>
+            <div className="siem-promo-card">
+              <div className="siem-promo-head">
+                <span className="siem-promo-label">SIEM integration</span>
+                <span className="siem-badge">Microsoft Sentinel</span>
+              </div>
+              <h3>Integrates directly into your SOC.</h3>
+              <p>Every security-relevant event in 1Patch — task execution, signature failure, kill switch activation, impossible-travel detection — is forwarded to your SIEM in structured, machine-readable format. No log scraping. No custom parsers required.</p>
+              <div className="siem-channels">
+                <div className="siem-channel"><b>Microsoft Sentinel</b> — native integration</div>
+                <div className="siem-channel"><b>Webhook</b> — structured JSON events</div>
+                <div className="siem-channel"><b>Syslog</b> — RFC 5424 formatted</div>
+              </div>
+              <a href="/security" className="btn btn-secondary" style={{ marginTop: 20, display: 'inline-flex' }}>View event schema →</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── Features ─────────────────────────────────────── */}
       <section className="block" id="features">
         <div className="wrap">
           <div className="section-head">
-            <div className="section-eyebrow"><span className="num">01</span>Features</div>
-            <h2 className="section-title">Built for fleet operators, not for screenshots.</h2>
-            <p className="section-lede">Real workflows for teams managing thousands of devices across sites. No marketing dashboards — actual primitives you compose into your patch policy.</p>
+            <div className="section-eyebrow"><span className="num">05</span>Fleet management</div>
+            <h2 className="section-title">Policy-driven orchestration. Across your entire fleet.</h2>
+            <p className="section-lede">Controlled, verifiable execution for teams managing thousands of devices across sites. No marketing dashboards — actual primitives you compose into your patch policy.</p>
           </div>
           <div className="features-grid">
             <div className="feat">
@@ -127,7 +356,7 @@ export function Home() {
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7h10M5 11h10M5 15h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><path d="M3 4l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
               <h3>Rule builder</h3>
-              <p>Match by app name, manufacturer, GUID, or package ID. Pin versions, defer to a window, or auto-update when a CVE drops. Rules cascade, like CSS.</p>
+              <p>Match by app name, manufacturer, GUID, or package ID. Pin versions, defer to a window, or trigger execution when a CVE drops. Rules cascade, like CSS.</p>
             </div>
             <div className="feat">
               <div className="feat-num">F.03</div>
@@ -135,7 +364,7 @@ export function Home() {
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="6" stroke="currentColor" strokeWidth="1.4"/><path d="M10 4v6l4 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
               </div>
               <h3>Device-level control</h3>
-              <p>Drill into any host. Update one app, update all apps, defer, exclude, or open the audit trail. Bulk actions stay one keystroke away.</p>
+              <p>Drill into any host. Update one app, update all, defer, exclude, or open the audit trail. Bulk actions stay one keystroke away. Every operation is signed and logged.</p>
             </div>
             <div className="feat">
               <div className="feat-num">F.04</div>
@@ -143,7 +372,7 @@ export function Home() {
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="14" height="3" stroke="currentColor" strokeWidth="1.4"/><rect x="3" y="9" width="14" height="3" stroke="currentColor" strokeWidth="1.4"/><rect x="3" y="14" width="14" height="3" stroke="currentColor" strokeWidth="1.4"/><circle cx="6" cy="5.5" r=".7" fill="currentColor"/><circle cx="6" cy="10.5" r=".7" fill="currentColor"/><circle cx="6" cy="15.5" r=".7" fill="currentColor"/></svg>
               </div>
               <h3>Backend nodes</h3>
-              <p>Drop a node per site, region, or customer. Clients route to the nearest healthy one. Nodes cache rules and queue device data while the control plane is offline.</p>
+              <p>Deploy a node per site, region, or customer network. Clients route to the nearest healthy one. Nodes cache rules and queue device data while the control plane is unreachable.</p>
             </div>
             <div className="feat">
               <div className="feat-num">F.05</div>
@@ -151,15 +380,15 @@ export function Home() {
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2 4 5v5c0 4 2.5 6.5 6 8 3.5-1.5 6-4 6-8V5l-6-3z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/><path d="m7.5 10 2 2 3.5-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
               <h3>Cross-platform agent</h3>
-              <p>One C# worker for both Windows (winget) and Linux (apt foundation). Signed manifests. HTTPS polling. Per-device identity. No runtime required.</p>
+              <p>One C# agent for Windows (winget) and Linux (apt). Signed manifests. HTTPS polling. Per-device EC P-256 identity. No runtime required. No remote shell access at any layer.</p>
             </div>
             <div className="feat">
               <div className="feat-num">F.06</div>
               <div className="feat-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="currentColor" strokeWidth="1.4"/><path d="M4 17c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
               </div>
-              <h3>Auth that fits ops</h3>
-              <p>Standalone owner account, MFA, recovery codes, RBAC, session tracking, impossible-travel review, optional OAuth linking. No SSO tax.</p>
+              <h3>Access control</h3>
+              <p>RBAC with org, team, and device scope. TOTP MFA required for admin and owner accounts. Fleet-wide tasks require MFA re-authorization above a device threshold. No SSO tax.</p>
             </div>
           </div>
         </div>
@@ -169,9 +398,9 @@ export function Home() {
       <section className="block" id="how" style={{ background: 'var(--bg-2)' }}>
         <div className="wrap">
           <div className="section-head">
-            <div className="section-eyebrow"><span className="num">02</span>How it works</div>
-            <h2 className="section-title">One control plane. As many nodes as your topology needs.</h2>
-            <p className="section-lede">Run a single management server behind your load balancer. Attach backend nodes per site, region, or customer network. Devices choose the nearest healthy one. The control plane never has to be reachable from your endpoints.</p>
+            <div className="section-eyebrow"><span className="num">06</span>Architecture</div>
+            <h2 className="section-title">One control plane. Endpoints never have to trust it blindly.</h2>
+            <p className="section-lede">Run a single management server behind your load balancer. Attach backend nodes per site, region, or customer network. The control plane never needs to be directly reachable from your endpoints — and even if it's compromised, endpoints verify independently.</p>
           </div>
           <div className="topology">
             <div className="topo-head">
@@ -223,7 +452,7 @@ export function Home() {
                 ['02', 'Create owner', 'First local user, MFA, recovery codes.'],
                 ['03', 'Issue tokens', 'Enrollment tokens for backend nodes.'],
                 ['04', 'Place nodes', 'One per site, region or customer.'],
-                ['05', 'Roll out client', 'C# worker on Windows + Linux devices.'],
+                ['05', 'Roll out agent', 'C# agent on Windows + Linux devices.'],
               ].map(([n, title, desc]) => (
                 <div className="step-item" key={n}>
                   <div className="step-n">{n}</div>
@@ -236,58 +465,120 @@ export function Home() {
         </div>
       </section>
 
-      {/* ── Security ─────────────────────────────────────── */}
-      <section className="block" id="security">
+      {/* ── Enterprise Readiness ──────────────────────────── */}
+      <section className="block" id="enterprise">
         <div className="wrap">
           <div className="section-head">
-            <div className="section-eyebrow"><span className="num">03</span>Security</div>
-            <h2 className="section-title">A patch tool that doesn't widen your attack surface.</h2>
-            <p className="section-lede">Standalone identity, signed manifests, allowlisted provider operations, full audit. Self-host inside your perimeter and your endpoints never need to talk to the public internet.</p>
+            <div className="section-eyebrow"><span className="num">07</span>Enterprise readiness</div>
+            <h2 className="section-title">Built for environments where invisible actions are unacceptable.</h2>
+            <p className="section-lede">Every operation in 1Patch is auditable, delayable, and revocable. Designed for teams with compliance requirements and a SOC that needs complete, independent visibility into every endpoint action.</p>
           </div>
-          <div className="sec-grid">
-            <div className="sec-cell">
-              <div className="sec-tag">S.01 · Identity</div>
-              <h3>Local-first auth, no SSO tax.</h3>
-              <p>First setup demands a local owner. Standalone auth ships with MFA, recovery codes, lockout, session tracking. OAuth linking is opt-in, later.</p>
-              <ul className="sec-list">
-                <li>TOTP MFA + recovery codes by default</li>
-                <li>RBAC with org / team / device scopes</li>
-                <li>Impossible-travel review queue</li>
-                <li>Session tracking with revoke</li>
-              </ul>
-            </div>
-            <div className="sec-cell">
-              <div className="sec-tag">S.02 · Agents</div>
-              <h3>Signed everything, polled outbound.</h3>
-              <p>Clients pull from backend nodes over HTTPS. Manifests are signed by the control plane. Per-device identity. Failover across nodes is automatic.</p>
-              <ul className="sec-list">
-                <li>Signed backend manifests (ES256)</li>
-                <li>Per-device long-lived identity</li>
-                <li>Outbound-only HTTPS poll</li>
-                <li>Automatic node failover</li>
-              </ul>
-            </div>
-            <div className="sec-cell">
-              <div className="sec-tag">S.03 · Execution</div>
-              <h3>Allowlisted operations only.</h3>
-              <p>Patch actions are restricted to provider-approved ops. MSI support requires hashes, signatures, and controlled arguments — no arbitrary execution.</p>
-              <ul className="sec-list">
-                <li>winget &amp; apt provider gates</li>
-                <li>Hash + signature pinning for MSI</li>
-                <li>No remote shell. Ever.</li>
-                <li>Argument allowlists per package</li>
-              </ul>
-            </div>
-            <div className="sec-cell">
-              <div className="sec-tag">S.04 · Audit</div>
-              <h3>Every privileged action, on the record.</h3>
-              <p>Every privileged action emits an audit event for review, alerting, and compliance workflows. Stream to your SIEM or query it in place.</p>
-              <ul className="sec-list">
-                <li>Append-only audit log</li>
-                <li>Webhook + syslog export</li>
-                <li>Alerting on policy bypass</li>
+          <div className="ent-grid">
+            <div className="ent-cell">
+              <div className="ent-tag">E.01 · Auditability</div>
+              <h3>Full auditability and traceability.</h3>
+              <p>Every task creates an append-only, chain-signed ledger entry. Agents cross-report applied bundle IDs — discrepancies trigger reconciliation alerts. Forensic analysis available from day one, with retention policies per role.</p>
+              <ul className="ent-list">
+                <li>Append-only signed task ledger</li>
+                <li>Bundle ID reconciliation alerts</li>
+                <li>Complete privileged-action history</li>
                 <li>Retention policies per role</li>
               </ul>
+            </div>
+            <div className="ent-cell">
+              <div className="ent-tag">E.02 · SIEM</div>
+              <h3>SOC-ready event pipeline.</h3>
+              <p>1Patch integrates directly into your SIEM — including Microsoft Sentinel — allowing your SOC to monitor, detect, and respond to every critical action in real time, independent of the management UI.</p>
+              <ul className="ent-list">
+                <li>Microsoft Sentinel native support</li>
+                <li>Structured webhook + syslog export</li>
+                <li>Real-time event forwarding</li>
+                <li>Machine-readable security event schemas</li>
+              </ul>
+            </div>
+            <div className="ent-cell">
+              <div className="ent-tag">E.03 · Access control</div>
+              <h3>RBAC and MFA by default.</h3>
+              <p>Role-based access at org, team, and device scope. TOTP MFA required for admin and owner accounts. Fleet-wide tasks require MFA re-authorization above a device threshold.</p>
+              <ul className="ent-list">
+                <li>RBAC with org / team / device scopes</li>
+                <li>MFA re-auth for fleet-wide tasks</li>
+                <li>Impossible-travel review queue</li>
+                <li>Session tracking with instant revoke</li>
+              </ul>
+            </div>
+            <div className="ent-cell">
+              <div className="ent-tag">E.04 · Execution control</div>
+              <h3>Delay window and kill switch.</h3>
+              <p>Configurable execution delay gives your SOC time to review large-scope tasks before they reach endpoints. The kill switch halts all pending execution fleet-wide in a single MFA-gated action.</p>
+              <ul className="ent-list">
+                <li>Configurable delay before execution</li>
+                <li>MFA-gated kill switch</li>
+                <li>SIEM alert on large-scope tasks</li>
+                <li>Deterministic, reproducible execution</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── We Tried to Break It Promo ────────────────────── */}
+      <section className="block wtb-promo-section" style={{ borderTop: '1px solid var(--line)', background: 'var(--bg-2)' }}>
+        <div className="wrap">
+          <div className="wtb-promo">
+            <div className="wtb-promo-content">
+              <div className="section-eyebrow" style={{ marginBottom: 20 }}>
+                <span className="num" style={{ background: 'var(--danger)', color: 'var(--paper)' }}>⚑</span>
+                Red-team analysis
+              </div>
+              <h2 className="wtb-promo-title">We attacked our own system.<br />Then we published the results.</h2>
+              <p className="wtb-promo-sub">We documented every attack path we could find against 1Patch — compromised credentials, forged tasks, network interception, malicious nodes, and more. The analysis covers both what we blocked and what we didn't.</p>
+              <a href="/security/we-tried-to-break-it" className="btn btn-primary" style={{ marginTop: 28, display: 'inline-flex' }}>
+                Read the adversarial analysis
+                <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </a>
+            </div>
+            <div className="wtb-promo-results">
+              {[
+                ['Credential theft', 'Blocked'],
+                ['Forged task bundle', 'Blocked'],
+                ['Compromised node', 'Blocked'],
+                ['Network MITM', 'Blocked'],
+                ['Admin account takeover', 'Contained'],
+                ['Control plane breach', 'Contained'],
+              ].map(([attack, outcome]) => (
+                <div className="wtb-result-row" key={attack}>
+                  <span className="wtb-attack-name">{attack}</span>
+                  <span className={`result-badge ${outcome === 'Blocked' ? 'result-blocked' : 'result-delayed'}`}>{outcome}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Trust Signals ────────────────────────────────── */}
+      <section className="block" style={{ borderTop: '1px solid var(--line)' }}>
+        <div className="wrap">
+          <div className="trust-signals">
+            <div>
+              <h2>Designed for <span>high-security</span> environments.</h2>
+              <p>Built with zero-trust principles from the ground up. Works even when the management server is under adversarial conditions. Full auditability and traceability at every layer.</p>
+            </div>
+            <div className="trust-bullets">
+              {[
+                'Zero-trust principles throughout — not a bolt-on',
+                'Endpoints remain safe even when the control plane is compromised',
+                'Full auditability and traceability at every layer',
+                'Cryptographically enforced trust at the endpoint',
+                'Delay window reduces blast radius of any compromise',
+                'Every action signed, logged, and forwarded to your SIEM',
+              ].map(b => (
+                <div className="trust-bullet" key={b}>
+                  <span className="trust-bullet-mark">→</span>
+                  <span>{b}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -297,15 +588,15 @@ export function Home() {
       <section className="block" id="pricing" style={{ background: 'var(--bg-2)' }}>
         <div className="wrap">
           <div className="section-head">
-            <div className="section-eyebrow"><span className="num">04</span>Pricing</div>
+            <div className="section-eyebrow"><span className="num">08</span>Pricing</div>
             <h2 className="section-title">Free forever to self-host. Pay only when you don't want to.</h2>
-            <p className="section-lede">The community edition is the same code that runs hosted — same features, same primitives. Pick the plan that fits how much of the operational load you want to carry.</p>
+            <p className="section-lede">The community edition is the same code that runs hosted — same security model, same zero-trust execution stack. Every plan includes full security features. Pick the plan that fits how much operational load you want to carry.</p>
           </div>
           <div className="price-grid">
             <div className="plan">
               <div className="plan-name">Community</div>
               <h3>Self-hosted</h3>
-              <p className="plan-desc">For labs, homelabs, contributors and teams that prefer their own metal.</p>
+              <p className="plan-desc">For labs, homelabs, contributors and teams that prefer their own infrastructure.</p>
               <div className="plan-price-row">
                 <span className="plan-price">$0</span>
                 <span className="plan-unit">/ forever, AGPL-3.0</span>
@@ -348,7 +639,7 @@ export function Home() {
                 <li>Dedicated security review channel</li>
                 <li>Air-gapped registry mirror</li>
               </ul>
-              <a href="#contact" className="plan-cta">Contact sales <span>→</span></a>
+              <a href="#contact" className="plan-cta">Evaluate your security posture <span>→</span></a>
             </div>
           </div>
         </div>
@@ -358,7 +649,7 @@ export function Home() {
       <section className="block" id="downloads">
         <div className="wrap">
           <div className="section-head">
-            <div className="section-eyebrow"><span className="num">05</span>Downloads</div>
+            <div className="section-eyebrow"><span className="num">09</span>Downloads</div>
             <h2 className="section-title">Signed binaries. Reproducible builds. SBOMs included.</h2>
             <p className="section-lede">Installers ship with cosign signatures, SBOMs, and SHA-256 checksums. v1.0 is in release-candidate; v0.9 is production-stable for the agent.</p>
           </div>
@@ -429,15 +720,19 @@ export function Home() {
           <div className="cta-block">
             <div>
               <h2>Stop chasing CVEs in spreadsheets.<br /><span>Start patching like you mean it.</span></h2>
-              <p>1Patch is built by Verto-IT in Germany, AGPLv3 forever, and run in production on fleets that genuinely cannot afford downtime. Pull the image, run the migration, enroll the first node — you're in business in fifteen minutes.</p>
+              <p>1Patch is built by Verto-IT in Germany, AGPLv3 forever, and run in production on fleets that cannot afford downtime or silent compromises. Self-host in fifteen minutes, or talk to us about your specific security requirements.</p>
             </div>
             <div className="cta-actions">
-              <a href="#downloads" className="btn btn-primary">
-                Pull the container
+              <a href="mailto:security@1patch.app" className="btn btn-primary">
+                Request a security demo
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
-              <a href="mailto:info@verto-it.com" className="btn btn-secondary">
-                info@verto-it.com
+              <a href="#downloads" className="btn btn-secondary">
+                Self-host in fifteen minutes
+                <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </a>
+              <a href="/security/we-tried-to-break-it" className="btn btn-secondary">
+                See how it behaves under attack
                 <svg className="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </div>

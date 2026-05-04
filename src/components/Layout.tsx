@@ -13,12 +13,12 @@ export function Layout() {
           <div className="nav-links">
             <a href="/#features">Features</a>
             <a href="/#how">How it works</a>
-            <a href="/#security">Security</a>
+            <Link to="/security">Security</Link>
             <a href="/#pricing">Pricing</a>
             <a href="/#downloads">Downloads</a>
-            <a href="/#contact" className="nav-cta">
+            <a href="mailto:security@1patch.app" className="nav-cta">
               <span className="nav-dot" />
-              Get hosted
+              Security demo
             </a>
           </div>
         </div>
@@ -44,6 +44,14 @@ export function Layout() {
                 <li><a href="/#how">How it works</a></li>
                 <li><a href="/#pricing">Pricing</a></li>
                 <li><a href="/#downloads">Downloads</a></li>
+              </ul>
+            </div>
+            <div className="foot-col">
+              <h5>Security</h5>
+              <ul>
+                <li><Link to="/security">Security model</Link></li>
+                <li><Link to="/security/we-tried-to-break-it">We tried to break it</Link></li>
+                <li><a href="mailto:security@1patch.app">security@1patch.app</a></li>
               </ul>
             </div>
             <div className="foot-col">

@@ -11,6 +11,7 @@ import { Legal } from './pages/Legal';
 import { Pricing } from './pages/Pricing';
 import { Privacy } from './pages/Privacy';
 import { Security } from './pages/Security';
+import { WeTriedToBreakIt } from './pages/WeTriedToBreakIt';
 import { SelfHosting } from './pages/SelfHosting';
 import { Terms } from './pages/Terms';
 
@@ -36,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/self-hosting" element={<SelfHosting />} />
           <Route path="/security" element={<Security />} />
+          <Route path="/security/we-tried-to-break-it" element={<WeTriedToBreakIt />} />
           <Route path="/downloads" element={<Downloads />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/imprint" element={<Imprint />} />
