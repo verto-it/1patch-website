@@ -13,6 +13,8 @@ import { Privacy } from './pages/Privacy';
 import { Security } from './pages/Security';
 import { WeTriedToBreakIt } from './pages/WeTriedToBreakIt';
 import { SelfHosting } from './pages/SelfHosting';
+import { Rules } from './pages/Rules';
+import { SiemSetup } from './pages/SiemSetup';
 import { Terms } from './pages/Terms';
 
 /* Self-hosted fonts — no Google CDN, GDPR-compliant */
@@ -36,8 +38,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/features" element={<Features />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/self-hosting" element={<SelfHosting />} />
+          <Route path="/rules" element={<Rules />} />
           <Route path="/security" element={<Security />} />
           <Route path="/security/we-tried-to-break-it" element={<WeTriedToBreakIt />} />
+          <Route path="/settings/siem" element={<SiemSetup />} />
           <Route path="/downloads" element={<Downloads />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/imprint" element={<Imprint />} />

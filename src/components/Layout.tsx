@@ -1,4 +1,11 @@
-import { Outlet, Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, Link, useLocation } from 'react-router-dom';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 
 export function Layout() {
   return (
@@ -13,6 +20,7 @@ export function Layout() {
           <div className="nav-links">
             <a href="/#features">Features</a>
             <a href="/#how">How it works</a>
+            <Link to="/rules">Rules</Link>
             <Link to="/security">Security</Link>
             <a href="/#pricing">Pricing</a>
             <a href="/#downloads">Downloads</a>
@@ -23,6 +31,7 @@ export function Layout() {
           </div>
         </div>
       </header>
+      <ScrollToTop />
       <main>
         <Outlet />
       </main>
