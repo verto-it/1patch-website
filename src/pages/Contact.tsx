@@ -5,7 +5,7 @@ export function Contact() {
       <h1 style={{ fontSize: 'clamp(34px,5vw,52px)', fontWeight: 700, letterSpacing: '-0.025em', marginBottom: 20 }}>Get in touch</h1>
       <p className="lead compact">For hosted 1Patch, enterprise support, or security reports, reach out directly.</p>
       <a className="btn btn-primary inline" href="mailto:info@verto-it.com" style={{ marginTop: 32 }}>
-        hello@1patch.app
+        info@verto-it.com
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3 3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </a>
     </section>
