@@ -24,7 +24,7 @@ export function Rules() {
             <h1 className="headline">Rules that create tasks, not shortcuts.</h1>
             <p className="sub">Automate patch and security workflows while preserving scan, approval, delay, signing, ledger, and SIEM guarantees.</p>
             <div className="hero-actions">
-              <a className="btn btn-primary" href="#builder">Open builder <span className="arrow">→</span></a>
+              <a className="btn btn-primary" href="/rules/create">Start from template <span className="arrow">→</span></a>
               <a className="btn btn-secondary" href="#simulation">Test simulation</a>
             </div>
           </div>

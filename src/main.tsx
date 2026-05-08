@@ -14,6 +14,7 @@ import { Security } from './pages/Security';
 import { WeTriedToBreakIt } from './pages/WeTriedToBreakIt';
 import { SelfHosting } from './pages/SelfHosting';
 import { Rules } from './pages/Rules';
+import { RuleCreate } from './pages/RuleCreate';
 import { SiemSetup } from './pages/SiemSetup';
 import { Terms } from './pages/Terms';
 
@@ -39,6 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/self-hosting" element={<SelfHosting />} />
           <Route path="/rules" element={<Rules />} />
+          <Route path="/rules/create" element={<RuleCreate />} />
           <Route path="/security" element={<Security />} />
           <Route path="/security/we-tried-to-break-it" element={<WeTriedToBreakIt />} />
           <Route path="/settings/siem" element={<SiemSetup />} />
