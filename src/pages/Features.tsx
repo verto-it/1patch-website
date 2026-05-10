@@ -9,7 +9,7 @@ const categories = [
       'App catalog with search, filters, oldest installed version, and newest available version.',
       'Device-level app details with update-one and update-all workflows.',
       'Rule builder matching on app name, manufacturer, GUID, and package ID.',
-      'Windows winget support first; Linux apt provider in progress; MSI library on the roadmap.',
+      'Windows winget, Chocolatey, and Scoop support; Linux dpkg/apt on Debian/Ubuntu; MSI direct install with SHA-256 verification.',
     ],
   },
   {
@@ -38,6 +38,10 @@ const categories = [
   },
 ] as const;
 
+/**
+ * Renders the features UI.
+ * @returns The result produced by the operation.
+ */
 export function Features() {
   return (
     <section className="page">

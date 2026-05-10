@@ -1,25 +1,33 @@
 import { useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
+/**
+ * Renders the scroll to top UI.
+ * @returns The result produced by the operation.
+ */
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
 
+/**
+ * Renders the layout UI.
+ * @returns The result produced by the operation.
+ */
 export function Layout() {
   return (
     <div className="app-shell">
       <header className="site-header">
         <div className="wrap nav-inner">
           <a href="/#top" className="brand">
-            <div className="brand-mark">1</div>
+            <img src="/logo.png" alt="1Patch" className="brand-logo" />
             <span className="brand-name"><b>1Patch</b></span>
-            <span className="brand-tag">v0.9 · AGPL-3.0</span>
           </a>
           <div className="nav-links">
             <a href="/#features">Features</a>
             <a href="/#how">How it works</a>
+            <Link to="/setup-guide">Setup</Link>
             <Link to="/rules">Rules</Link>
             <Link to="/security">Security</Link>
             <a href="/#pricing">Pricing</a>
@@ -40,7 +48,7 @@ export function Layout() {
           <div className="foot-grid">
             <div className="foot-brand">
               <div className="brand">
-                <div className="brand-mark">1</div>
+                <img src="/logo.png" alt="1Patch" className="brand-logo" />
                 <span className="brand-name"><b>1Patch</b></span>
                 <span className="brand-tag">v0.9 · AGPL-3.0</span>
               </div>
@@ -66,6 +74,7 @@ export function Layout() {
             <div className="foot-col">
               <h5>Resources</h5>
               <ul>
+                <li><Link to="/setup-guide">Setup guide</Link></li>
                 <li><a href="#">Documentation</a></li>
                 <li><a href="#">Changelog</a></li>
                 <li><a href="#">Status</a></li>

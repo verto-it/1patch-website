@@ -8,6 +8,19 @@ Public-facing React + Vite website for 1Patch.
 
 ---
 
+## Source Map
+
+See [`src/README.md`](src/README.md) for the page/component layout.
+
+| Path | Responsibility |
+|---|---|
+| `src/main.tsx` | Router setup and route registration |
+| `src/components/Layout.tsx` | Shared shell, navigation, footer, scroll restoration |
+| `src/pages/` | Marketing, security, setup, SIEM, legal, and rule-template pages |
+| `src/styles.css` | Global tokens, layout rules, page-specific styling |
+
+---
+
 ## Prerequisites
 
 - Node.js 20 LTS or 22 LTS

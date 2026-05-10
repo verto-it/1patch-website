@@ -1,3 +1,7 @@
+/**
+ * Renders the contact UI.
+ * @returns The result produced by the operation.
+ */
 export function Contact() {
   return (
     <section className="page">

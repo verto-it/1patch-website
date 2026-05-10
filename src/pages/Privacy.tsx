@@ -1,3 +1,7 @@
+/**
+ * Renders the privacy UI.
+ * @returns The result produced by the operation.
+ */
 export function Privacy() {
   return (
     <section className="page">

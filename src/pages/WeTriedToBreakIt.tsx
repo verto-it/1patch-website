@@ -92,6 +92,10 @@ const resultLabels: Record<string, string> = {
   delayed: 'Delayed & Visible',
 };
 
+/**
+ * Renders the we tried to break it UI.
+ * @returns The result produced by the operation.
+ */
 export function WeTriedToBreakIt() {
   return (
     <div className="page">

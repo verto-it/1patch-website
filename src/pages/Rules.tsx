@@ -14,6 +14,10 @@ const auditRows = [
   ['rule.executed', 'task draft', 'visible', 'ledger pending'],
 ];
 
+/**
+ * Renders the rules UI.
+ * @returns The result produced by the operation.
+ */
 export function Rules() {
   return (
     <div className="rules-page">
@@ -162,6 +166,12 @@ export function Rules() {
   );
 }
 
+/**
+ * Renders the rule section UI.
+ *
+ * @param props Component props supplied by the caller.
+ * @returns The result produced by the operation.
+ */
 function RuleSection({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
     <div className="rule-section-card">

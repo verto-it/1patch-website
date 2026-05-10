@@ -7,10 +7,19 @@ const boardRows = [
   { state: '',       name: 'kiosk-berlin-31',   arch: 'win11/x64',   app: 'vlc',     from: '3.0.20', to: '3.0.21' },
 ] as const;
 
+/**
+ * Handles the copy operation.
+ *
+ * @param text text supplied to the function.
+ */
 function copy(text: string) {
   navigator.clipboard?.writeText(text);
 }
 
+/**
+ * Renders the home UI.
+ * @returns The result produced by the operation.
+ */
 export function Home() {
   return (
     <>
@@ -19,9 +28,6 @@ export function Home() {
         <div className="wrap">
           <div className="hero-grid">
             <div>
-              <div className="eyebrow">
-                <span className="pill">v0.9</span> security-first patch orchestration platform
-              </div>
               <h1 className="headline">
                 Your endpoints<br />
                 don't trust us.<br />
@@ -39,11 +45,6 @@ export function Home() {
                   </svg>
                 </a>
                 <a href="/#how" className="btn btn-secondary">See How It Works</a>
-              </div>
-              <div className="install-cmd">
-                <span className="prompt">$</span>
-                <span className="cmd">docker run -d ghcr.io/1patch/server:0.9</span>
-                <button className="copy" onClick={() => copy('docker run -d ghcr.io/1patch/server:0.9')}>copy</button>
               </div>
             </div>
 
@@ -418,7 +419,7 @@ export function Home() {
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2 4 5v5c0 4 2.5 6.5 6 8 3.5-1.5 6-4 6-8V5l-6-3z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/><path d="m7.5 10 2 2 3.5-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </div>
               <h3>Cross-platform agent</h3>
-              <p>One C# agent for Windows (winget) and Linux (apt). Signed manifests. HTTPS polling. Per-device EC P-256 identity. No runtime required. No remote shell access at any layer.</p>
+              <p>One C# agent for Windows (winget, Chocolatey, Scoop) and Linux (apt). Signed manifests. HTTPS polling. Per-device EC P-256 identity. No runtime required. No remote shell access at any layer.</p>
             </div>
             <div className="feat">
               <div className="feat-num">F.06</div>
@@ -712,7 +713,7 @@ export function Home() {
                   <div className="dl-os-icon">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#161614" strokeWidth="1.6"/><path d="M11 6c-1.5 1.5-1.5 3 0 4.5s1.5 3 0 4.5" stroke="#161614" strokeWidth="1.6" strokeLinecap="round"/></svg>
                   </div>
-                  <div><h4>Linux agent</h4><span className="v">apt · deb / rpm · x64 / arm64</span></div>
+                  <div><h4>Linux agent</h4><span className="v">apt · deb · x64 / arm64</span></div>
                 </div>
                 <span className="dl-tag">stable</span>
               </div>
@@ -726,7 +727,7 @@ export function Home() {
                   <div className="dl-os-icon">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="6" width="16" height="3" fill="#161614"/><rect x="3" y="11" width="16" height="3" fill="#161614"/><rect x="3" y="16" width="10" height="2" fill="#161614"/></svg>
                   </div>
-                  <div><h4>Management server</h4><span className="v">docker · helm · postgres 14+</span></div>
+                  <div><h4>Management server</h4><span className="v">helm · postgres 14+</span></div>
                 </div>
                 <span className="dl-tag">stable</span>
               </div>
@@ -740,7 +741,7 @@ export function Home() {
                   <div className="dl-os-icon">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="6" cy="11" r="2.2" fill="#161614"/><circle cx="11" cy="11" r="2.2" fill="#161614"/><circle cx="16" cy="11" r="2.2" fill="#161614"/></svg>
                   </div>
-                  <div><h4>Backend node</h4><span className="v">docker · stateless · per-site</span></div>
+                  <div><h4>Backend node</h4><span className="v">stateless · per-site</span></div>
                 </div>
                 <span className="dl-tag pre">v1.0-rc</span>
               </div>

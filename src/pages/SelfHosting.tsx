@@ -21,10 +21,14 @@ const steps = [
   },
   {
     title: 'Build rules and apply patches',
-    description: 'Log in to the management dashboard, create rules matching app names, GUIDs, or package IDs, and assign them to device groups. Clients pull signed rule bundles from their nearest backend node and apply updates via winget or apt.',
+    description: 'Log in to the management dashboard, create rules matching app names, GUIDs, or package IDs, and assign them to device groups. Clients pull signed rule bundles from their nearest backend node and apply updates via winget, Chocolatey, Scoop, or apt.',
   },
 ];
 
+/**
+ * Renders the self hosting UI.
+ * @returns The result produced by the operation.
+ */
 export function SelfHosting() {
   return (
     <section className="page">

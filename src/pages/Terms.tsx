@@ -1,3 +1,7 @@
+/**
+ * Renders the terms UI.
+ * @returns The result produced by the operation.
+ */
 export function Terms() {
   return (
     <section className="page">

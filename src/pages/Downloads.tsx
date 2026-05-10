@@ -1,5 +1,9 @@
 import { Monitor, Terminal } from 'lucide-react';
 
+/**
+ * Renders the downloads UI.
+ * @returns The result produced by the operation.
+ */
 export function Downloads() {
   return (
     <section className="page">
@@ -13,7 +17,7 @@ export function Downloads() {
         <article>
           <div className="article-icon"><Monitor size={17} /></div>
           <h3>Windows agent</h3>
-          <p>C# worker service with winget support. Self-contained executable, no runtime required.</p>
+          <p>C# worker service with winget, Chocolatey, and Scoop support. Self-contained executable, no runtime required.</p>
           <code style={{
             display: 'block', marginTop: '14px',
             fontFamily: 'var(--font-mono)', fontSize: '11px',
@@ -28,7 +32,7 @@ export function Downloads() {
         <article>
           <div className="article-icon"><Terminal size={17} /></div>
           <h3>Linux agent</h3>
-          <p>Same C# worker service with an apt provider foundation. Builds identically for Linux targets.</p>
+          <p>C# worker service for Debian/Ubuntu hosts. Inventories packages via dpkg-query and applies updates with apt-get. Requires root to apply patches.</p>
           <code style={{
             display: 'block', marginTop: '14px',
             fontFamily: 'var(--font-mono)', fontSize: '11px',

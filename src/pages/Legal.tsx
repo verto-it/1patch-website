@@ -1,3 +1,9 @@
+/**
+ * Renders the legal UI.
+ *
+ * @param props Component props supplied by the caller.
+ * @returns The result produced by the operation.
+ */
 export function Legal({ title }: { title: string }) {
   return (
     <section className="page">

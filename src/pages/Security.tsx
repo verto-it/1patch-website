@@ -6,54 +6,60 @@ const layerCards = [
     Icon: Users,
     iconStyle: { background: 'rgba(34,211,238,.08)', color: 'var(--cyan)' },
     title: 'Identity & access',
-    body: 'bcrypt (cost 12), minimum 16-char passwords with complexity requirements. TOTP MFA required for owner and admin. Brute-force lockout, recovery codes, session tracking, impossible-travel review.',
-    tag: { label: 'bcrypt · TOTP · RBAC', style: { background: 'rgba(34,211,238,.08)', color: 'var(--cyan)' } },
+    body: 'Passwords are bcrypt-hashed at cost 12 and must be at least 12 characters with uppercase, lowercase, and numeric characters. Sessions are 8-hour JWTs. Failed password attempts lock accounts after 5 tries for 15 minutes. TOTP MFA is supported for login and used for fresh task-signing approvals when tenant policy requires it.',
+    tag: { label: 'bcrypt · JWT · RBAC · TOTP', style: { background: 'rgba(34,211,238,.08)', color: 'var(--cyan)' } },
   },
   {
     Icon: LockKeyhole,
     iconStyle: { background: 'rgba(167,139,250,.08)', color: 'var(--purple)' },
     title: 'Transport security',
-    body: 'HTTPS everywhere. mTLS enforced on every backend node ↔ management connection. Clients connect to backend nodes over HTTPS with manifest-pinned certificates.',
-    tag: { label: 'HTTPS · mTLS everywhere', style: { background: 'rgba(167,139,250,.08)', color: 'var(--purple)' } },
+    body: 'In production the management server runs HTTPS and requires backend nodes to present a Vault-issued client certificate on node-facing routes. Clients and nodes use configured HTTPS URLs; local development can run over plain HTTP with explicit warnings and production-only fallbacks disabled.',
+    tag: { label: 'HTTPS · node mTLS', style: { background: 'rgba(167,139,250,.08)', color: 'var(--purple)' } },
   },
   {
     Icon: KeyRound,
     iconStyle: { background: 'rgba(251,191,36,.08)', color: 'var(--amber)' },
     title: 'Node authentication',
-    body: 'HashiCorp Vault issues EC P-256 mTLS client certificates for each backend node (24 h TTL, auto-renewed). Root CA private key never leaves Vault. One-time enrollment token — no shared secret after registration.',
-    tag: { label: 'Vault PKI · EC P-256 · 24 h TTL', style: { background: 'rgba(251,191,36,.08)', color: 'var(--amber)' } },
+    body: 'Backend node enrollment tokens are bcrypt-hashed, one-time use, and expire after 24 hours. After registration, Vault issues each node a 24-hour EC P-256 mTLS certificate that the node renews before expiry. Node decommissioning uses a unique per-node token and revokes the Vault certificate.',
+    tag: { label: 'Vault PKI · one-time enrollment', style: { background: 'rgba(251,191,36,.08)', color: 'var(--amber)' } },
   },
   {
     Icon: ShieldCheck,
     iconStyle: { background: 'rgba(52,211,153,.08)', color: 'var(--green)' },
     title: 'Client security',
-    body: 'Each device gets a unique EC P-256 key pair at enrollment. Bootstrap manifests, rule bundles, and task bundles are ES256-signed by the management server. Clients pin the public key and verify all payloads before execution.',
-    tag: { label: 'ES256-signed · per-device keys', style: { background: 'rgba(52,211,153,.08)', color: 'var(--green)' } },
+    body: 'Each client generates a hardware-derived device ID and EC P-256 key pair. After enrollment, every client-to-node request is ES256-signed with a five-minute timestamp window. Clients pin scoped management public keys and verify bootstrap manifests, kill-switch state, task ledgers, and executable task bundles locally.',
+    tag: { label: 'per-device keys · signed requests', style: { background: 'rgba(52,211,153,.08)', color: 'var(--green)' } },
   },
   {
     Icon: Activity,
     iconStyle: { background: 'rgba(34,211,238,.08)', color: 'var(--cyan)' },
-    title: 'Signed ledger',
-    body: 'Every task bundle issued creates an append-only ledger entry signed by the management server. Clients report applied bundle IDs — discrepancies trigger reconciliation alerts. The ledger cannot be silently modified.',
-    tag: { label: 'Append-only · chain-signed', style: { background: 'rgba(34,211,238,.08)', color: 'var(--cyan)' } },
+    title: 'Task authorization',
+    body: 'Tasks move from draft to security scan, MFA-backed approval, signing, delay window, and executable state. Each executable task carries a signed task_ledger entry with the task hash, approvals, risk score, not-before time, expiry, and dashboard visibility flag. Clients reject hidden, revoked, expired, unsigned, or modified tasks.',
+    tag: { label: 'security scan · signed ledger', style: { background: 'rgba(34,211,238,.08)', color: 'var(--cyan)' } },
   },
   {
     Icon: Package,
     iconStyle: { background: 'rgba(52,211,153,.08)', color: 'var(--green)' },
     title: 'Package integrity',
-    body: 'SHA-256 verified on upload and again before execution on the client. MSI support requires code signatures and controlled argument allow-lists. Patch actions are limited to allow-listed provider operations — no arbitrary execution.',
-    tag: { label: 'SHA-256 · signed payloads', style: { background: 'rgba(52,211,153,.08)', color: 'var(--green)' } },
+    body: 'Downloadable packages require SHA-256 metadata. Uploaded files are hashed server-side, and clients re-hash downloads before execution. MSI arguments are allowlisted, winget/apt/package commands are invoked without shell interpolation, and executable task types are limited to update_package and refresh_inventory.',
+    tag: { label: 'SHA-256 · allowlisted execution', style: { background: 'rgba(52,211,153,.08)', color: 'var(--green)' } },
   },
 ] as const;
 
+/**
+ * Renders the security UI.
+ * @returns The result produced by the operation.
+ */
 export function Security() {
   return (
     <div className="page">
       <span className="eyebrow-page">Security model</span>
       <h1>Security</h1>
       <p className="lead compact">
-        Layered throughout the stack — from identity and transport through to the signed task
-        bundles that execute on managed machines. Report vulnerabilities privately to{' '}
+        Security in 1Patch is mostly about making patch execution hard to forge, hard to hide,
+        and easy to stop. The management server signs what is allowed, backend nodes relay signed
+        envelopes, and clients verify the final task locally before doing anything. Report
+        vulnerabilities privately to{' '}
         <a href="mailto:security@1patch.app" style={{ color: 'var(--cyan)', fontWeight: 500 }}>
           security@1patch.app
         </a>.
@@ -64,54 +70,56 @@ export function Security() {
         <h2>Architecture overview</h2>
         <p>
           1Patch separates the control plane (management server) from execution paths (backend nodes
-          and clients). No component has unilateral power to execute arbitrary actions. Every
-          operation crosses multiple verification boundaries.
+          and clients). Backend nodes are durable relays, not authorities: they cache and forward
+          signed work, while clients decide locally whether a task is trustworthy enough to run.
         </p>
         <div className="trust-boundary-grid">
           <div className="tb-cell">
             <div className="tb-label">Layer 1</div>
             <h3>Management server</h3>
             <p>
-              Central control plane. Holds policy, audit log, and task queue. Issues signed task
-              bundles via HashiCorp Vault — cannot act directly on endpoints.
+              Central control plane. Holds users, RBAC policy, packages, rules, node registry,
+              task state, audit events, SIEM configuration, and scoped ES256 management signing
+              keys.
             </p>
             <ul className="tb-props">
-              <li>Postgres + Vault backend</li>
-              <li>ES256 signing via Vault PKI</li>
-              <li>Append-only signed ledger</li>
-              <li>MFA-gated admin actions</li>
-              <li>Delay window enforcement</li>
+              <li>JWT auth, RBAC, bcrypt password hashes</li>
+              <li>Scoped ES256 signing keys per payload class</li>
+              <li>Vault PKI for backend node certificates</li>
+              <li>Security scan, approval, signing, delay workflow</li>
+              <li>Hash-chained audit log and SIEM pipeline</li>
             </ul>
           </div>
           <div className="tb-cell">
             <div className="tb-label">Layer 2</div>
             <h3>Backend nodes</h3>
             <p>
-              Stateless relays per site or region. Cache and distribute signed bundles. Authenticated
-              to the management server via short-lived mTLS certificates — no signing authority.
+              Site or region relays with a local Dragonfly queue. Nodes authenticate to management
+              with short-lived mTLS certificates, pull signed task bundles, cache packages, and
+              forward device events when the control plane is reachable.
             </p>
             <ul className="tb-props">
-              <li>mTLS client cert (24 h TTL, Vault-issued)</li>
+              <li>Vault-issued mTLS client cert, 24 h TTL</li>
               <li>Cannot sign task bundles</li>
-              <li>Operates offline (caches last bundle set)</li>
-              <li>Clients detect forged responses</li>
-              <li>Automatic failover across nodes</li>
+              <li>Durable offline event queue</li>
+              <li>Refuses bundles without active visible ledgers</li>
+              <li>Relays signed kill-switch state to clients</li>
             </ul>
           </div>
           <div className="tb-cell">
             <div className="tb-label">Layer 3</div>
             <h3>Clients (endpoints)</h3>
             <p>
-              Each device holds a unique EC P-256 identity. Verifies every payload against the
-              pinned management server public key before executing any task — regardless of which
-              node delivered it.
+              Endpoint worker service. Generates its own EC P-256 device identity, signs
+              post-enrollment requests to backend nodes, and verifies management-signed payloads
+              before execution.
             </p>
             <ul className="tb-props">
               <li>Per-device EC P-256 key pair</li>
-              <li>ES256 signature verification on all bundles</li>
-              <li>Sequence number + replay protection</li>
-              <li>Reports applied bundle IDs to server</li>
-              <li>Outbound-only HTTPS polling</li>
+              <li>ES256 verification with scoped pinned keys</li>
+              <li>Task ledger, hash, expiry, and not-before checks</li>
+              <li>Trusted download origin and SHA-256 checks</li>
+              <li>Fails closed if kill-switch state cannot be verified</li>
             </ul>
           </div>
         </div>
@@ -121,17 +129,18 @@ export function Security() {
       <section className="arch-section">
         <h2>Key security concepts</h2>
         <p>
-          These are the mechanisms that make the trust model work — not policy statements,
-          but concrete technical controls.
+          These are the mechanisms the current code enforces. Some hardening choices, such as
+          externalizing signing keys from environment configuration, are surfaced by the posture
+          dashboard as enterprise-readiness findings.
         </p>
         <div className="concept-list">
           {[
-            ['Signed task execution', 'ES256 / Vault PKI', 'Every task bundle is signed by the management server\'s signing key held in HashiCorp Vault. Clients verify the signature locally before executing. A task without a valid signature is silently rejected — the node that delivered it has no way to forge one.'],
-            ['mTLS node identity', 'EC P-256 · 24 h TTL', 'Each backend node receives a unique EC P-256 mTLS client certificate from Vault PKI, valid for 24 hours and auto-renewed. The management server mutually authenticates every node connection. A compromised or revoked node cannot masquerade as a legitimate one.'],
-            ['Signed ledger', 'Append-only · chain-signed', 'Every task bundle issued creates an immutable, chain-signed ledger entry. Omissions are detectable — a bundle that was issued but not in the ledger indicates tampering. Clients cross-report applied bundle IDs for reconciliation.'],
-            ['Delayed execution', 'Configurable window', 'Fleet-wide tasks are held in a pending state for a configurable delay window before clients act. This window gives operators time to detect, review, and cancel a compromised action. The kill switch can halt all pending execution fleet-wide instantly.'],
-            ['Kill switch', 'Immediate halt', 'A single privileged action suspends all pending task execution across the entire fleet. MFA-gated. Clients check kill switch state on every poll cycle. Designed for containment when a compromise is detected.'],
-            ['SIEM integration', 'Sentinel · webhook · syslog', '1Patch integrates directly into your SIEM — including Microsoft Sentinel — via structured webhook and syslog export. Every critical action, anomaly, and verification failure generates a security event. Your SOC sees what 1Patch sees, in real time.'],
+            ['Scoped signing keys', 'ES256 · one scope per payload', 'Production requires active ES256 signing metadata for bootstrap_manifest, rule_bundle, task_bundle, task_ledger, kill_switch, and recovery_task. Wildcard signing keys, dev keys, missing metadata, duplicate active keys, and shared active key material are rejected or reported as posture findings.'],
+            ['mTLS node identity', 'Vault PKI · 24 h TTL', 'Each backend node registers once with a hashed enrollment token, then receives a Vault-issued EC P-256 client certificate. Management node endpoints authenticate the TLS peer certificate and extract the nodeId from the certificate CN. Renewal happens before expiry, and decommissioning revokes the cert.'],
+            ['Signed task ledger', 'task_ledger scope', 'A task can only become executable after security scan and approval. Signing creates a ledger entry with taskHash, approvals, risk score, notBefore, expiresAt, and visibleInDashboard=true. Backend nodes and clients reject bundles with missing, hidden, revoked, expired, or invalid ledgers.'],
+            ['Client-side final gate', 'pinned scoped keys', 'The client verifies the task_bundle signature, payload hash, tenant, expiry, ledger signature, ledger hash, taskHash, notBefore, allowed source host, and SHA-256 package hash before execution. Tinfoil mode also requires at least two approvals.'],
+            ['Kill switch', 'signed stop state', 'The management server signs kill-switch state with the kill_switch scope. Backend nodes cache and relay it; clients verify it each cycle and skip execution when active. If a client cannot verify kill-switch state, it fails closed for that task cycle.'],
+            ['Security posture', 'checks · safe fixes', 'The dashboard scores tenant readiness across task security, signing keys, nodes, admin MFA, audit integrity, SIEM, policy, and kill switch. Safe fixes can enable MFA-backed task approval and enforce the minimum execution delay; critical fixes remain manual.'],
           ].map(([name, code, desc]) => (
             <div className="concept-item" key={name}>
               <div className="concept-key">
@@ -149,7 +158,7 @@ export function Security() {
       {/* ── Layer by Layer ────────────────────────────── */}
       <section className="arch-section">
         <h2>Layer by layer</h2>
-        <p>Each layer of the stack applies independent controls — compromise at one layer does not cascade unconditionally to the next.</p>
+        <p>Each layer applies controls the next layer can independently verify. A relay compromise should not be enough to forge executable work.</p>
         <div className="security-grid">
           {layerCards.map((card) => (
             <div key={card.title} className="security-card">
@@ -173,25 +182,27 @@ export function Security() {
       <section className="arch-section">
         <h2>SIEM integration</h2>
         <p>
-          Every critical action in 1Patch emits a structured security event. Your SOC sees
-          the same signal 1Patch does — in real time, independent of the management UI.
+          1Patch emits structured operational security events through a non-blocking SIEM
+          pipeline. Export failures are retried and moved to a dead-letter queue without blocking
+          authentication, task execution, or node operations.
         </p>
         <div className="siem-block">
           <div>
             <h3>Microsoft Sentinel and beyond</h3>
             <p>
-              1Patch integrates directly into your SIEM, including Microsoft Sentinel, allowing
-              your SOC to monitor, detect, and respond to every critical action across the fleet.
-              Events are forwarded via structured webhook or syslog export with consistent,
-              machine-readable schemas.
+              Events are queued in Dragonfly, persisted in PostgreSQL, hash-chained, filtered by
+              tenant SIEM mode, and exported to Webhook, Syslog, or Microsoft Sentinel. Webhook
+              exports can include an HMAC signature; Syslog uses RFC 5424 severity mapping; Sentinel
+              uses the Azure Log Analytics HTTP Data Collector API.
             </p>
             <p style={{ marginTop: 14 }}>
-              Events include: task bundle issuance, client verification failures, replay detection,
-              kill switch activation, large-scope task creation, impossible-travel flags, admin
-              MFA failures, and node enrollment anomalies.
+              Current events include: authentication success and failure, MFA success and failure,
+              node registration and certificate issuance, task creation, security scan completion,
+              high-risk task detection, task approval, task signing, task revocation, and kill-switch
+              activation or deactivation.
             </p>
             <div className="siem-tags" style={{ marginTop: 18 }}>
-              {['Microsoft Sentinel', 'Webhook export', 'Syslog (RFC 5424)', 'Structured JSON events', 'Real-time forwarding', 'SOC-ready schemas'].map(t => (
+              {['Microsoft Sentinel', 'Webhook export', 'Syslog (RFC 5424)', 'Hash-chained events', 'Retry + DLQ', 'Mode-based filtering'].map(t => (
                 <span className="siem-tag" key={t}>{t}</span>
               ))}
             </div>
@@ -203,8 +214,8 @@ export function Security() {
       {/* ── CTA ───────────────────────────────────────── */}
       <div className="security-page-cta">
         <div>
-          <h2>See how 1Patch behaves under attack</h2>
-          <p>Read the red-team report or request a technical walkthrough with the team.</p>
+          <h2>See how the trust boundaries behave under attack</h2>
+          <p>Read the breakage notes or request a technical walkthrough with the team.</p>
         </div>
         <div className="security-page-cta-actions">
           <Link to="/security/we-tried-to-break-it" className="btn btn-primary">

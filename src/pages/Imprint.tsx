@@ -1,3 +1,7 @@
+/**
+ * Renders the imprint UI.
+ * @returns The result produced by the operation.
+ */
 export function Imprint() {
   return (
     <section className="page">

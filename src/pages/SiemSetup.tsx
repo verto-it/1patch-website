@@ -38,6 +38,10 @@ const SPLUNK_QUERIES = [
   { label: 'High-risk tasks', query: 'index=onepatch type=task.high_risk_detected' },
 ];
 
+/**
+ * Renders the siem setup UI.
+ * @returns The result produced by the operation.
+ */
 export function SiemSetup() {
   const [step, setStep]           = useState<Step>(1);
   const [siemType, setSiemType]   = useState<SiemType | null>(null);
@@ -49,6 +53,11 @@ export function SiemSetup() {
   const [enabled, setEnabled]     = useState(false);
   const [copied, setCopied]       = useState<string | null>(null);
 
+  /**
+   * Handles the select type operation.
+   *
+   * @param t t supplied to the function.
+   */
   function selectType(t: SiemType) {
     setSiemType(t);
     setStep(2);
@@ -56,6 +65,10 @@ export function SiemSetup() {
     setEnabled(false);
   }
 
+  /**
+   * Validates can advance to test rules.
+   * @returns The result produced by the operation.
+   */
   function canAdvanceToTest() {
     if (!siemType) return false;
     if (siemType === 'sentinel') return sentinel.workspaceId.trim() !== '' && sentinel.sharedKey.trim() !== '';
@@ -64,6 +77,9 @@ export function SiemSetup() {
     return false;
   }
 
+  /**
+   * Handles the run test operation.
+   */
   function runTest() {
     setTestStatus('testing');
     setTestError('');
@@ -79,6 +95,12 @@ export function SiemSetup() {
     }, 1400);
   }
 
+  /**
+   * Handles the copy to clipboard operation.
+   *
+   * @param text text supplied to the function.
+   * @param key key supplied to the function.
+   */
   function copyToClipboard(text: string, key: string) {
     navigator.clipboard.writeText(text).catch(() => undefined);
     setCopied(key);

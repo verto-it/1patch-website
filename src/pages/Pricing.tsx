@@ -12,7 +12,7 @@ const plans = [
       'Management server + backend nodes',
       'Unlimited devices and nodes',
       'Full security model (MFA, RBAC, audit log)',
-      'Windows (winget) and Linux (apt) agents',
+      'Windows (winget, Chocolatey, Scoop) and Linux (apt) agents',
       'Community support via GitHub',
     ],
   },
@@ -48,6 +48,10 @@ const plans = [
   },
 ] as const;
 
+/**
+ * Renders the pricing UI.
+ * @returns The result produced by the operation.
+ */
 export function Pricing() {
   return (
     <section className="page">
