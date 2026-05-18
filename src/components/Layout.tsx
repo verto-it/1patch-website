@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
 /**
@@ -16,6 +16,15 @@ function ScrollToTop() {
  * @returns The result produced by the operation.
  */
 export function Layout() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   return (
     <div className="app-shell">
       <header className="site-header">
@@ -37,8 +46,33 @@ export function Layout() {
               Security demo
             </a>
           </div>
+          <button
+            className={`nav-burger${menuOpen ? ' open' : ''}`}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(o => !o)}
+          >
+            <span /><span /><span />
+          </button>
         </div>
       </header>
+      {menuOpen && (
+        <div className="nav-mobile" role="dialog" aria-label="Navigation">
+          <nav>
+            <a href="/#features" onClick={() => setMenuOpen(false)}>Features</a>
+            <a href="/#how" onClick={() => setMenuOpen(false)}>How it works</a>
+            <Link to="/setup-guide" onClick={() => setMenuOpen(false)}>Setup</Link>
+            <Link to="/rules" onClick={() => setMenuOpen(false)}>Rules</Link>
+            <Link to="/security" onClick={() => setMenuOpen(false)}>Security</Link>
+            <a href="/#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
+            <a href="/#downloads" onClick={() => setMenuOpen(false)}>Downloads</a>
+            <a href="mailto:security@1patch.app" className="nav-cta" onClick={() => setMenuOpen(false)}>
+              <span className="nav-dot" />
+              Security demo
+            </a>
+          </nav>
+        </div>
+      )}
       <ScrollToTop />
       <main>
         <Outlet />

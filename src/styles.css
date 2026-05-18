@@ -86,7 +86,63 @@ main { flex: 1; }
   background: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 30%, transparent);
 }
-@media (max-width: 880px) { .nav-links a:not(.nav-cta) { display: none; } }
+@media (max-width: 880px) { .nav-links { display: none; } }
+
+/* ── Hamburger button ────────────────────────────────── */
+.nav-burger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px;
+  width: 40px; height: 40px;
+  background: transparent; border: none; padding: 0;
+  cursor: pointer;
+}
+.nav-burger span {
+  display: block; width: 22px; height: 2px;
+  background: rgba(251,249,243,.74);
+  border-radius: 1px;
+  transition: transform .2s ease, opacity .15s ease;
+  transform-origin: center;
+}
+.nav-burger:hover span { background: var(--paper); }
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+@media (max-width: 880px) { .nav-burger { display: flex; } }
+
+/* ── Mobile nav drawer ───────────────────────────────── */
+.nav-mobile {
+  position: fixed; inset: 64px 0 0 0; z-index: 49;
+  background:
+    linear-gradient(180deg, #242521 0%, #191a17 100%);
+  display: flex; flex-direction: column;
+  padding: 24px 20px;
+  animation: nav-slide-in .18s ease;
+}
+@keyframes nav-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nav-mobile nav {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.nav-mobile nav a {
+  font-size: 18px; font-weight: 500;
+  color: rgba(251,249,243,.74);
+  padding: 14px 4px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: block;
+}
+.nav-mobile nav a:last-child { border-bottom: none; }
+.nav-mobile nav a:hover { color: var(--paper); }
+.nav-mobile nav a.nav-cta {
+  margin-top: 16px;
+  background: var(--accent); color: var(--accent-ink);
+  padding: 14px 18px; border-radius: 2px; border-bottom: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 15px; font-weight: 600;
+  width: fit-content;
+}
 
 /* ── Buttons ─────────────────────────────────────────── */
 

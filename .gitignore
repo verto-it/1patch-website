@@ -1,5 +1,13 @@
 node_modules/
 dist/
 .env
+.env.*
+!.env.example
 *.log
 coverage/
+
+# Local secrets
+*.key
+*.pem
+*.pfx
+*.p12
