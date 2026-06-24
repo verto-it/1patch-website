@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { LangProvider } from './i18n';
 import { Layout } from './components/Layout';
 import { Contact } from './pages/Contact';
 import { Downloads } from './pages/Downloads';
@@ -33,6 +34,7 @@ import './styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <LangProvider>
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
@@ -56,5 +58,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </Route>
       </Routes>
     </BrowserRouter>
+    </LangProvider>
   </React.StrictMode>,
 );

@@ -97,8 +97,8 @@ export function Privacy() {
         <div className="legal-block">
           <h2 className="legal-h2">6. External links</h2>
           <p>
-            This website links to external services including GitHub
-            (github.com/Verto-It/1Patch). When you follow these links you leave our site and the
+            This website links to external services including GitHub repositories for the
+            management server, client, and backend node. When you follow these links you leave our site and the
             respective provider's own privacy policy applies. We have no influence over the data
             those third parties collect.
           </p>
