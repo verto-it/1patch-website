@@ -481,6 +481,16 @@ section.block { padding: 112px 0; border-top: 1px solid var(--line); }
 }
 .legal-list li::before { content: "—"; color: var(--mute-2); flex-shrink: 0; }
 
+.legal-h3 {
+  font-size: 13px; font-weight: 600; color: var(--ink);
+  letter-spacing: -0.005em; font-family: var(--sans); margin-top: 4px;
+}
+
+.legal-note {
+  font-size: 12px; line-height: 1.7; color: var(--mute);
+  margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line);
+}
+
 .legal-table-wrap { overflow-x: auto; margin: 4px 0; }
 .legal-table {
   width: 100%; border-collapse: collapse;

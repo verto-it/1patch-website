@@ -140,8 +140,9 @@ export function Layout() {
               <ul>
                 <li><Link to="/contact">{t.layout.footerCompanyLinks[0]}</Link></li>
                 <li><Link to="/privacy">{t.layout.footerCompanyLinks[1]}</Link></li>
-                <li><Link to="/terms">{t.layout.footerCompanyLinks[2]}</Link></li>
-                <li><Link to="/imprint">{t.layout.footerCompanyLinks[3]}</Link></li>
+                <li><Link to="/cookies">{t.layout.footerCompanyLinks[2]}</Link></li>
+                <li><Link to="/terms">{t.layout.footerCompanyLinks[3]}</Link></li>
+                <li><Link to="/imprint">{t.layout.footerCompanyLinks[4]}</Link></li>
               </ul>
             </div>
           </div>

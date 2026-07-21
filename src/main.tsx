@@ -11,6 +11,7 @@ import { Imprint } from './pages/Imprint';
 import { Legal } from './pages/Legal';
 import { Pricing } from './pages/Pricing';
 import { Privacy } from './pages/Privacy';
+import { Cookies } from './pages/Cookies';
 import { Security } from './pages/Security';
 import { WeTriedToBreakIt } from './pages/WeTriedToBreakIt';
 import { SelfHosting } from './pages/SelfHosting';
@@ -52,6 +53,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/contact" element={<Contact />} />
           <Route path="/imprint" element={<Imprint />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/cookies" element={<Cookies />} />
           <Route path="/terms" element={<Terms />} />
           {/* Fallback for old /legal/:title pattern */}
           <Route path="/legal/:title" element={<Legal title="Legal" />} />

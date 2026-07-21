@@ -1,134 +1,430 @@
-/**
- * Renders the terms UI.
- * @returns The result produced by the operation.
- */
+import { LegalDoc, LegalContent, OPERATOR, MailLink } from './LegalDoc';
+
+const de: LegalContent = {
+  eyebrow: 'Stand: Juli 2026',
+  title: 'Allgemeine Geschäftsbedingungen (AGB)',
+  intro: (
+    <>
+      Diese Allgemeinen Geschäftsbedingungen regeln die Nutzung der Informationswebsite{' '}
+      <strong>1patch.de</strong> sowie – soweit künftig angeboten – des gehosteten 1Patch-Dienstes
+      unter <strong>1patch.app</strong>, jeweils betrieben von {OPERATOR.name} – {OPERATOR.brand},{' '}
+      {OPERATOR.street}, {OPERATOR.city}, {OPERATOR.country.de} („Betreiber“, „wir“, „uns“). Mit der
+      Nutzung der Website erkennen Sie diese Bedingungen an.
+    </>
+  ),
+  sections: [
+    {
+      h: '1. Geltungsbereich und Anbieter',
+      blocks: [
+        {
+          p: (
+            <>
+              Diese AGB gelten für die Informationswebsite unter 1patch.de. Für die Nutzung der
+              quelloffenen 1Patch-Software gelten ausschließlich die Bedingungen der jeweiligen
+              Open-Source-Lizenz (siehe Ziffer 3), die Softwarelizenzfragen gegenüber diesen AGB
+              vorgehen. Für einen künftig angebotenen gehosteten Dienst gelten ergänzend die dort
+              vereinbarten gesonderten Bedingungen (Ziffer 4).
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '2. Leistungsgegenstand der Website',
+      blocks: [
+        {
+          p: (
+            <>
+              Die Website unter 1patch.de ist ein unentgeltliches Informationsangebot über das
+              Open-Source-Projekt 1Patch. Sie dient der Darstellung des Projekts, seiner Funktionen
+              und der Verweisung auf die zugehörigen Quellcode-Repositories. Ein Anspruch auf
+              ständige Verfügbarkeit der Website besteht nicht; wir behalten uns vor, das Angebot zu
+              ändern, einzuschränken oder einzustellen.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '3. Open-Source-Software',
+      blocks: [
+        {
+          p: (
+            <>
+              Der 1Patch-Management-Server, die Backend-Node und der Client-Agent sind freie
+              Software und unter der <strong>GNU Affero General Public License v3.0
+              (AGPL-3.0-only)</strong> lizenziert. Sie dürfen die Software unter den Bedingungen
+              dieser Lizenz nutzen, verändern und weiterverbreiten. Der vollständige Lizenztext
+              liegt jedem Komponenten-Repository bei.
+            </>
+          ),
+        },
+        {
+          p: (
+            <>
+              Die Software wird „wie besehen“ („as is“) ohne jegliche Gewährleistung bereitgestellt,
+              soweit die AGPL-3.0 und das zwingende Recht dies zulassen. Maßgeblich für die
+              Softwarenutzung ist allein der Lizenztext.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '4. Künftiger gehosteter Dienst (B2B)',
+      blocks: [
+        {
+          p: (
+            <>
+              Der gehostete 1Patch-Dienst (1patch.app) wird derzeit noch nicht angeboten. Wird er
+              künftig verfügbar, richtet er sich <strong>ausschließlich an Unternehmer</strong> im
+              Sinne des § 14 BGB, Behörden und juristische Personen des öffentlichen Rechts.
+              Verträge mit Verbrauchern (§ 13 BGB) werden nicht geschlossen. Der Zugang zum
+              gehosteten Dienst setzt einen gesonderten Vertrag sowie – bei Verarbeitung
+              personenbezogener Daten – einen Auftragsverarbeitungsvertrag (AVV) voraus; diese
+              Dokumente gehen bei Widersprüchen diesen AGB vor.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '5. Nutzung der Website und Pflichten der Nutzer',
+      blocks: [
+        {
+          p: <>Sie dürfen 1patch.de nur zu rechtmäßigen Zwecken nutzen. Insbesondere ist untersagt:</>,
+        },
+        {
+          list: [
+            'sich unbefugt Zugang zu Teilen der Website oder der zugrunde liegenden Infrastruktur zu verschaffen',
+            'Schadsoftware zu übertragen, die Website in einer die Verfügbarkeit oder Leistung beeinträchtigenden Weise automatisiert abzurufen (Scraping) oder technische Schutzmaßnahmen zu umgehen',
+            'eine Verbindung zu oder Beauftragung durch Verto-IT bzw. das 1Patch-Projekt vorzutäuschen oder Schutzrechte Dritter zu verletzen',
+          ],
+        },
+      ],
+    },
+    {
+      h: '6. Rechte an Inhalten und Marken',
+      blocks: [
+        {
+          p: (
+            <>
+              Der Name „1Patch“, das Logo sowie die Inhalte dieser Website sind, soweit nicht anders
+              gekennzeichnet, urheber- und kennzeichenrechtlich geschützt und stehen dem Betreiber
+              zu. Die Quellcode-Repositories enthalten eigene Lizenzhinweise, die die Weiterverwendung
+              des Codes regeln. Diese Website gewährt Ihnen kein Recht zur Nutzung unserer Marken
+              ohne vorherige schriftliche Zustimmung.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '7. Haftung',
+      blocks: [
+        {
+          p: (
+            <>
+              Die Inhalte dieser Website werden ausschließlich zu Informationszwecken bereitgestellt.
+              Wir bemühen uns um Richtigkeit und Aktualität, übernehmen jedoch keine Gewähr für
+              Vollständigkeit, Richtigkeit oder Eignung für einen bestimmten Zweck.
+            </>
+          ),
+        },
+        {
+          p: (
+            <>
+              Wir haften unbeschränkt für Schäden aus der Verletzung des Lebens, des Körpers oder der
+              Gesundheit sowie bei Vorsatz und grober Fahrlässigkeit. Bei einfacher Fahrlässigkeit
+              haften wir nur bei Verletzung einer wesentlichen Vertragspflicht (Kardinalpflicht) und
+              begrenzt auf den vertragstypischen, vorhersehbaren Schaden. Die Haftung nach dem
+              Produkthaftungsgesetz bleibt unberührt. Eine darüber hinausgehende Haftung ist
+              ausgeschlossen.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '8. Haftung für externe Links',
+      blocks: [
+        {
+          p: (
+            <>
+              Diese Website enthält Links zu externen Websites Dritter (z. B. GitHub). Auf deren
+              Inhalte haben wir keinen Einfluss und übernehmen hierfür keine Haftung. Für die Inhalte
+              der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '9. Änderungen dieser AGB',
+      blocks: [
+        {
+          p: (
+            <>
+              Wir können diese AGB mit Wirkung für die Zukunft ändern, etwa bei geänderter Rechtslage
+              oder Weiterentwicklung des Angebots. Die jeweils aktuelle Fassung ist stets auf dieser
+              Seite abrufbar. Mit der weiteren Nutzung der Website nach einer Änderung erkennen Sie
+              die geänderten Bedingungen an.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '10. Anwendbares Recht und Gerichtsstand',
+      blocks: [
+        {
+          p: (
+            <>
+              Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts
+              (CISG). Ist der Nutzer Kaufmann, juristische Person des öffentlichen Rechts oder
+              öffentlich-rechtliches Sondervermögen, ist ausschließlicher Gerichtsstand für alle
+              Streitigkeiten der Sitz des Betreibers (Korb, Baden-Württemberg).
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '11. Schlussbestimmungen',
+      blocks: [
+        {
+          p: (
+            <>
+              Sollten einzelne Bestimmungen dieser AGB unwirksam oder undurchführbar sein oder
+              werden, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.
+            </>
+          ),
+        },
+        {
+          p: (
+            <>
+              Kontakt: Allgemeine Anfragen <MailLink address={OPERATOR.mailGeneral} />, Datenschutz{' '}
+              <MailLink address={OPERATOR.mailPrivacy} />.
+            </>
+          ),
+        },
+      ],
+    },
+  ],
+};
+
+const en: LegalContent = {
+  eyebrow: 'Last updated: July 2026',
+  title: 'Terms and Conditions',
+  intro: (
+    <>
+      These terms and conditions govern the use of the informational website{' '}
+      <strong>1patch.de</strong> and — where offered in future — the hosted 1Patch service at{' '}
+      <strong>1patch.app</strong>, each operated by {OPERATOR.name} – {OPERATOR.brand},{' '}
+      {OPERATOR.street}, {OPERATOR.city}, {OPERATOR.country.en} ("Operator", "we", "us"). By using
+      the website you accept these terms.
+    </>
+  ),
+  sections: [
+    {
+      h: '1. Scope and provider',
+      blocks: [
+        {
+          p: (
+            <>
+              These terms apply to the informational website at 1patch.de. Use of the open-source
+              1Patch software is governed solely by the terms of the applicable open-source licence
+              (see section 3), which prevail over these terms in software licensing matters. Any
+              hosted service offered in future is additionally governed by the separate terms agreed
+              there (section 4).
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '2. Subject matter of the website',
+      blocks: [
+        {
+          p: (
+            <>
+              The website at 1patch.de is a free informational offering about the open-source
+              project 1Patch. It presents the project, its features, and links to the associated
+              source-code repositories. There is no entitlement to continuous availability of the
+              website; we reserve the right to change, restrict, or discontinue the offering.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '3. Open-source software',
+      blocks: [
+        {
+          p: (
+            <>
+              The 1Patch management server, backend node, and client agent are free software
+              licensed under the <strong>GNU Affero General Public License v3.0
+              (AGPL-3.0-only)</strong>. You may use, modify, and redistribute the software under the
+              conditions of that licence. The full licence text is included in every component
+              repository.
+            </>
+          ),
+        },
+        {
+          p: (
+            <>
+              The software is provided "as is" without any warranty, to the extent permitted by the
+              AGPL-3.0 and mandatory law. The licence text alone is authoritative for use of the
+              software.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '4. Future hosted service (B2B)',
+      blocks: [
+        {
+          p: (
+            <>
+              The hosted 1Patch service (1patch.app) is not yet offered. If it becomes available in
+              future, it will be directed <strong>exclusively at businesses</strong> within the
+              meaning of § 14 BGB, public authorities, and legal entities under public law. Contracts
+              with consumers (§ 13 BGB) will not be concluded. Access to the hosted service requires
+              a separate agreement and — where personal data is processed — a data processing
+              agreement (DPA); those documents prevail over these terms in the event of conflict.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '5. Use of the website and user obligations',
+      blocks: [
+        {
+          p: <>You may use 1patch.de for lawful purposes only. In particular, you must not:</>,
+        },
+        {
+          list: [
+            'gain unauthorised access to any part of the website or the underlying infrastructure',
+            'transmit malicious code, access the website in an automated manner that impairs its availability or performance (scraping), or circumvent technical protection measures',
+            'misrepresent any affiliation with or engagement by Verto-IT or the 1Patch project, or infringe third-party rights',
+          ],
+        },
+      ],
+    },
+    {
+      h: '6. Rights to content and trademarks',
+      blocks: [
+        {
+          p: (
+            <>
+              The name "1Patch", the logo, and the content of this website are, unless otherwise
+              indicated, protected by copyright and trademark law and belong to the Operator. The
+              source-code repositories contain their own licence notices governing reuse of the
+              code. This website grants you no right to use our trademarks without prior written
+              consent.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '7. Liability',
+      blocks: [
+        {
+          p: (
+            <>
+              The content of this website is provided for informational purposes only. We strive for
+              accuracy and currency but give no warranty as to completeness, correctness, or fitness
+              for a particular purpose.
+            </>
+          ),
+        },
+        {
+          p: (
+            <>
+              We are liable without limitation for damages arising from injury to life, body, or
+              health and in cases of intent and gross negligence. In cases of simple negligence we
+              are liable only for breach of a material contractual obligation (cardinal obligation)
+              and limited to the foreseeable damage typical for the contract. Liability under the
+              German Product Liability Act (Produkthaftungsgesetz) remains unaffected. Any further
+              liability is excluded.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '8. Liability for external links',
+      blocks: [
+        {
+          p: (
+            <>
+              This website contains links to external third-party websites (e.g. GitHub). We have no
+              influence over their content and accept no liability for it. The respective provider or
+              operator is always responsible for the content of the linked pages.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '9. Changes to these terms',
+      blocks: [
+        {
+          p: (
+            <>
+              We may change these terms with effect for the future, for example in response to
+              changed law or the further development of the offering. The current version is always
+              available on this page. By continuing to use the website after a change, you accept the
+              amended terms.
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '10. Governing law and jurisdiction',
+      blocks: [
+        {
+          p: (
+            <>
+              The law of the Federal Republic of Germany applies, excluding the UN Convention on
+              Contracts for the International Sale of Goods (CISG). If the user is a merchant, a legal
+              entity under public law, or a special fund under public law, the exclusive place of
+              jurisdiction for all disputes is the Operator's registered location (Korb,
+              Baden-Württemberg).
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      h: '11. Final provisions',
+      blocks: [
+        {
+          p: (
+            <>
+              Should individual provisions of these terms be or become invalid or unenforceable, the
+              validity of the remaining provisions shall remain unaffected.
+            </>
+          ),
+        },
+        {
+          p: (
+            <>
+              Contact: general enquiries <MailLink address={OPERATOR.mailGeneral} />, data protection{' '}
+              <MailLink address={OPERATOR.mailPrivacy} />.
+            </>
+          ),
+        },
+      ],
+    },
+  ],
+};
+
 export function Terms() {
-  return (
-    <section className="page">
-      <div className="legal-doc">
-        <div className="legal-eyebrow">Last updated: May 2026</div>
-        <h1 className="legal-h1">Terms of Use</h1>
-        <p className="legal-intro">
-          These terms govern your use of <strong>1patch.de</strong> (the informational website)
-          and, where applicable, the hosted 1Patch service at <strong>1patch.app</strong>, both
-          operated by Florian Busche, Blumenstraße 15, 71404 Korb, Germany ("Operator", "we",
-          "us"). By using either site you agree to these terms.
-        </p>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">1. Scope</h2>
-          <p>
-            These terms apply to the informational website at 1patch.de and to hosted
-            1Patch service accounts at 1patch.app. Use of the open-source 1Patch software itself is governed
-            solely by the GNU Affero General Public License v3.0 (AGPL-3.0), which takes
-            precedence over these terms for software licensing matters.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">2. Open-source software</h2>
-          <p>
-            The 1Patch server, backend node, and client agent are free software licensed under
-            the <strong>AGPL-3.0-only</strong> licence. You may download, use, modify, and
-            distribute the software under the conditions of that licence. The full licence text
-            is included in every component repository.
-          </p>
-          <p>
-            We make no warranties regarding the open-source software beyond those required by
-            applicable law. The software is provided "as is".
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">3. Hosted service</h2>
-          <p>
-            Access to the commercially hosted 1Patch control plane is subject to a separate
-            Service Agreement and, for organisations processing personal data, a Data Processing
-            Agreement (DPA / Auftragsverarbeitungsvertrag). Those documents are provided during
-            onboarding and prevail over these terms where they conflict.
-          </p>
-          <p>
-            The hosted service is intended exclusively for <strong>business customers
-            (B2B)</strong>. Consumer contracts (B2C) within the meaning of § 13 BGB are not
-            accepted.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">4. Permitted use of this website</h2>
-          <p>You may use 1patch.de and 1patch.app for lawful purposes only. You must not:</p>
-          <ul className="legal-list">
-            <li>Attempt to gain unauthorised access to any part of the site or its infrastructure</li>
-            <li>Transmit malicious code, scrape the site in a manner that impairs performance, or
-              circumvent technical measures</li>
-            <li>Misrepresent your affiliation with Verto-IT or the 1Patch project</li>
-          </ul>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">5. Intellectual property</h2>
-          <p>
-            The 1Patch name, logo, and website content are the property of Florian Busche unless
-            otherwise noted. The open-source software repositories contain their own licence
-            statements which govern reuse of that code.
-          </p>
-          <p>
-            Nothing on this site grants you a licence to use our trademarks without prior written
-            consent.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">6. Disclaimer of liability</h2>
-          <p>
-            The content on this website is provided for informational purposes only. We make
-            reasonable efforts to keep information accurate and up to date, but we give no
-            warranties as to its completeness, correctness, or fitness for a particular purpose.
-          </p>
-          <p>
-            Our liability for damages is excluded to the extent permitted by law. Liability for
-            intent and gross negligence, as well as liability under the Produkthaftungsgesetz
-            (German Product Liability Act), remains unaffected.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">7. External links</h2>
-          <p>
-            This website contains links to external sites (e.g. GitHub). We have no control over
-            linked content and accept no liability for it. The respective operators of those sites
-            are responsible for their content.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">8. Governing law and jurisdiction</h2>
-          <p>
-            These terms are governed by the laws of the Federal Republic of Germany, excluding
-            the UN Convention on Contracts for the International Sale of Goods (CISG). For
-            disputes with merchants (Kaufleute) or legal entities under public law, the courts
-            of the Operator's registered location (Korb, Baden-Württemberg) have exclusive
-            jurisdiction.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">9. Changes</h2>
-          <p>
-            We may update these terms at any time. The current version is always available at
-            this URL. Continued use of the website after changes constitutes acceptance of the
-            revised terms.
-          </p>
-        </div>
-
-        <div className="legal-block">
-          <h2 className="legal-h2">10. Contact</h2>
-          <p>
-            General enquiries: <a href="mailto:info@verto-it.com">info@verto-it.com</a><br />
-            Privacy &amp; data protection: <a href="mailto:privacy@verto-it.com">privacy@verto-it.com</a>
-          </p>
-        </div>
-      </div>
-    </section>
-  );
+  return <LegalDoc de={de} en={en} />;
 }
